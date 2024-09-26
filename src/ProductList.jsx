@@ -2,11 +2,18 @@ import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { addItem, removeItem, updateQuantity } from './CartSlice';
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
+    const carItems = useSelector((state) => state.cart);
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.times);
+
+    const calculateTotalAmount = cartItems.reduce((total,item) => total + item.price * item.quantity, 0);
 
     const plantsArray = [
         {
@@ -252,12 +259,28 @@ function ProductList() {
         setShowCart(false);
     };
 
+    const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+    };
+
     const handleAddedToCart = (product) => {
         dispatchEvent(addItem(product));
         setAddedToCart((prevState) => ({
             ...prevState,
             [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
         }));
+    };
+
+    const handleIncrement = (index) => {
+        dispatch(updateQuantity(index));
+    };
+
+    const handleDecrement = (index) => {
+        dispatch(updateQuantity(index));
+    };  
+
+    const updateQuantity = (index) => {
+        dispatch(removeItem(index));
     };
 
     return (
