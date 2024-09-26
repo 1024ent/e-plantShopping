@@ -1,9 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { addItem } from './CartSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, removeItem, updateQuantity } from './CartSlice';
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
@@ -12,8 +11,6 @@ function ProductList() {
     const carItems = useSelector((state) => state.cart);
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.times);
-
-    const calculateTotalAmount = cartItems.reduce((total,item) => total + item.price * item.quantity, 0);
 
     const plantsArray = [
         {
@@ -271,18 +268,6 @@ function ProductList() {
         }));
     };
 
-    const handleIncrement = (index) => {
-        dispatch(updateQuantity(index));
-    };
-
-    const handleDecrement = (index) => {
-        dispatch(updateQuantity(index));
-    };  
-
-    const updateQuantity = (index) => {
-        dispatch(removeItem(index));
-    };
-
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -312,7 +297,8 @@ function ProductList() {
                             <div className="product-card" key={plantIndex}>
                                 <img className="product-image" src={plant.image} alt={plant.name} />
                                 <div className="product-title">{plant.name}</div>
-                                {/*Similarly like the above plant.name show other details like description and cost*/}
+                                <p>{plant.description}</p>
+                                <p>{plant.cost}</p>
                                 <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
                             </div>
                             ))}
